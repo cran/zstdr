@@ -2,7 +2,7 @@
 AC_PREREQ(2.61)
 
 # Process this file with autoconf to produce a configure script.
-AC_INIT([zstdr], [0.1.0])
+AC_INIT([zstdr], [0.1.1])
 
 # We are using C++
 AC_LANG(C++)
@@ -15,7 +15,10 @@ if test -z "${R_HOME}"; then
     AC_MSG_ERROR([Could not determine R_HOME.])
 fi
 
-which cmake >/dev/null || AC_MSG_ERROR([Could not find CMake.])
+AC_CHECK_PROG(CMAKE_CHECK, cmake, yes)
+if test x"$CMAKE_CHECK" != x"yes" ; then
+    AC_MSG_ERROR([Could not find cmake.])
+fi
 
 ## Get R compilers and flags
 ZSTDR_CC=$("${R_HOME}/bin/R" CMD config CC)
@@ -28,19 +31,22 @@ ZSTDR_CXXCPP=$("${R_HOME}/bin/R" CMD config CXXCPP)
 
 AC_MSG_NOTICE([Starting to build zstd library])
 
-build_dir=`mktemp -d -t zstdr_XXXXXX`
+base_dir=$(pwd)
+build_dir=`mktemp -d -t zstd_build_XXXXXX`
 zstd_version="1.2.0"
 
 $(cd "src/third_party/zstd-$zstd_version"; \
   	src_dir="$(pwd)"
 	cd $build_dir
-	cmake "$src_dir/build/cmake/" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="$build_dir/install" -DCMAKE_C_FLAGS="${ZSTDR_CFLAGS} -fPIC" -DCMAKE_CXX_FLAGS="${ZSTDR_CXXFLAGS} -fPIC" -DZSTD_BUILD_STATIC=ON; \
-	make > /dev/null 2>&1;)
+	cmake "$src_dir/build/cmake/" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="$base_dir/zstd-$zstd_version" -DCMAKE_C_FLAGS="${ZSTDR_CFLAGS} -fPIC" -DCMAKE_CXX_FLAGS="${ZSTDR_CXXFLAGS} -fPIC" -DZSTD_BUILD_STATIC=ON; \
+	make > /dev/null 2>&1; \
+	make install; \
+	cd /tmp/ && rm -rf $build_dir;)
 
 AC_MSG_NOTICE([Finished building zstd library])
 
-ZSTD_LIBS="$build_dir/lib/libzstd.a"
-ZSTD_INCL="-I$(pwd)/src/third_party/zstd-$zstd_version/lib"
+ZSTD_LIBS="$base_dir/zstd-$zstd_version/lib/libzstd.a"
+ZSTD_INCL="-I$base_dir/zstd-$zstd_version/include"
 
 zstd_cflags="${ZSTD_INCL}"
 zstd_libs="${ZSTD_LIBS}"

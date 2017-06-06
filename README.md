@@ -1,5 +1,5 @@
 
-[![Build Status](https://travis-ci.org/thekvs/zstdr.svg?branch=master)](https://travis-ci.org/thekvs/zstdr)
+[![Build Status](https://travis-ci.org/thekvs/zstdr.svg?branch=master)](https://travis-ci.org/thekvs/zstdr) [![CRAN Status](http://www.r-pkg.org/badges/version/zstdr)](https://cran.r-project.org/package=zstdr)
 
 About
 -----
@@ -14,7 +14,13 @@ See [benchmarks](Benchmarks.md) for comparison with other compression algorithms
 Installation
 ------------
 
-For the moment you can only install from GitHub:
+To install from CRAN:
+
+``` r
+install.packages('zstdr')
+```
+
+To install development version from GitHub:
 
 ``` r
 devtools::install_github("thekvs/zstdr")

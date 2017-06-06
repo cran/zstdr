@@ -1,7 +1,7 @@
 Package: zstdr
 Type: Package
-Title: R Bindings to Zstandard Compression Library
-Version: 0.1.0
+Title: R Bindings to the 'Zstandard' Compression Library
+Version: 0.1.1
 Authors@R: c(
         person("Konstantin", "Sorokin", email = "kvs@sigterm.ru", role = c("aut", "cre")),
         person("Facebook, Inc", role = c("aut","cph"), comment = "Fast real-time compression library")
@@ -15,15 +15,15 @@ URL: https://github.com/thekvs/zstdr
 BugReports: https://github.com/thekvs/zstdr/issues
 License: GPL (>= 2)
 LazyData: TRUE
-SystemRequirements: C++11
+SystemRequirements: C++11, cmake (>= 2.8.9)
 Imports: Rcpp (>= 0.12.0)
 LinkingTo: Rcpp
 RoxygenNote: 6.0.1
 Suggests: testthat
 OS_type: unix
 NeedsCompilation: yes
-Packaged: 2017-06-02 09:23:12 UTC; kvs
+Packaged: 2017-06-06 16:20:38 UTC; kvs
 Author: Konstantin Sorokin [aut, cre],
   Facebook, Inc [aut, cph] (Fast real-time compression library)
 Repository: CRAN
-Date/Publication: 2017-06-02 17:58:31 UTC
+Date/Publication: 2017-06-06 17:08:46 UTC
